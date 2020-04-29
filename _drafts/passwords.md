@@ -114,17 +114,15 @@ Recoverability:
 Let's try to summarize different aspects of the discribed approaches in a comparison table.
 
 
-| Method | Authentication factors | Points of trust | Single points of failure |
-| ------ | ---------------------- | --------------- | ------------------------ |
-| Common password | Password | Every single service you use | Password |
-| Social login | Password, 2FA\*\* | Identity Provider | Password, 2FA\*\*, Identity Provider |
-| Local password manager without backups | Password, database | 0 | Password, your device |
-| Local password manager with backups | Password, database\*\*\* | Backups | Password |
-| Password manager with cloud sync | 2 | 0 | 1 |
+| Method | Authentication factors | Points of trust | Single points of failure | Synchronizing | Password expiration |
+| ------ | ---------------------- | --------------- | ------------------------ | ------------- | ----------------- |
+| Common password | Password | Every single service you use | Password | | On any single service |
+| Social login | Password, 2FA\* | Identity Provider | Password, 2FA\*, Identity Provider | | On Identity Provider |
+| Local password manager | Password, database\*\* |  | Password, (your device, if no backups used) | Portable media | |
+| Password manager with cloud sync and a token | Password, token |  | Password | Via file hosting | |  
 
-\* number of online services you use<br>
-\*\* depends on Indentity Provider<br>
-\*\*\* only in case
+\* depends on Indentity Provider<br>
+\*\* depends on backups security<br>
 
 ### <a name="IDS"></a> Early warning system
 The purpose of it is very simple: provide you enough time to change all your passwords if something goes wrong. I.e. if I have enanbled SMS as 2FA and suddenly got a verification code I haven't requested I can suspect that my password is stolen and someone is trying to log into my account. 
