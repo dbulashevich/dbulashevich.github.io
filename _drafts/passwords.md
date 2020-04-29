@@ -49,6 +49,7 @@ So let's talk about requirements for our hypothetical password manager.
   Very popular practice is using a single identity to log into different services. A lot of websites allow to use your existing Facebook or Google account without registering new account on the website itself.
 
   In terminilogy of [OpenID](https://en.wikipedia.org/wiki/OpenID) the service storing your account is called Identity Provider (IP) and services using the identity provided by IP are called Relying Parties (RP).
+
   ![Social login](/assets/social_login.svg)
 
   Althoug this schema has much smaller attack surface since your password (or its hash) isn't stored by every service you use, some threats still exist:
@@ -64,6 +65,7 @@ So let's talk about requirements for our hypothetical password manager.
 
 # Local password manager
   If you don't want to trust a 3rd party all your accounts but still has a one password to remember you may use some kind of local [password manager](https://en.wikipedia.org/wiki/Password_manager). Using a single master password (MP) you unlock the password's database (PD) storing all your protected passwords (PP) in some local storage.
+
   ![local manager](/assets/local_manager.svg)
 
   Threats:
@@ -72,18 +74,42 @@ So let's talk about requirements for our hypothetical password manager.
     - steal it from backup if you have any.
     - in case you use your PD on different devices, i.e. on home computer and an office one, an attacker may try to steal PD from the synchronization media (USB stick, file-hosting, email, etc.)
 
-  This resembles two-factor authentication with factors of knowledge (your master password) and possession (media with your password database). It is both good news and bad news at the same time. The news is that you don't need to trust an external Identity Provider anymore.
+  This resembles two-factor authentication with factors of knowledge (your master password) and possession (media with your password database). It is both good news and bad news at the same time. On the good side you don't need to trust an external Identity Provider anymore.
  
   On the bad side you have the following challenges to solve:
   - Backups. If you lost your password database all your passwords stored there are lost as well. Similar to situation when you had enabled 2FA in your social account and then lost your phone.
   - If you want to use your password manager on different machines (i.e. a home desktop and a work laptop) you need to synchonize password database somehow.
-  - Keep your data safe. You may want to monitor access to your data, including backups, to implement [intrusion detection](#IDS)
 
   Unless you use your password manager on a single device and don't doing any backups, the usability is not as good. Securing your backups or synchonization channel may be untrivial tasks.
 
   Unless you store your PD on at least two independent media and keep those in sync your PD is a SPoF. If you lost it you may wave goodbye to your passwords.
   
-# Browser's built-in password manager with cloud synchronization
+# Password manager with cloud synchronization
+As I have told above, the worst problem of using a local password manager is managing backups of your password database and synchronizing it between different devices. The most convinient way is a file hosting service in some cloud.
+
+![cloud manager](/assets/cloud_manager.svg)
+
+While putting your PD in a cloud may seems unsafe it doesn't pose a security risk if you use a password manager with a decent encryption. As a potential attacker can't extract your passwords from PD without knowing the master password, you can use whatever cloud service you want.
+
+To be on safe side we need assume that any information put into 3rd party system on the Internet will be stolen somewhen. This means that while being protected we lost our 2FA of PD possession. As long as you think your strong master password is kept secret you are fine with this.
+
+But if you want even more security you may add one more authentication factor, i.e. hardware token. The actual implementation depends on used password manager but in this article we may see it as a compound encryption key consisting of your master password and some data stored in the token.
+
+Now let's summarize different aspects of this solution.
+
+Security:
+- an attacker must have you master password, database, and token at the same time.
+- you don't need to trust any 3rd party service.
+
+Usability:
+- you still need to type your password.
+- you need to present your token.
+
+Recoverability:
+- You have no ways to recover you master password in case you forgot it.
+- If your token allows to create it's duplicate you need to do it to have a backup. It's a good idea to store one at home while bring the other with you.
+- If you lost your computer you can download your database from the cloud.
+
 
 ### <a name="IDS"></a> Early warning system
 The purpose of it is very simple: provide you enough time to change all your passwords if something goes wrong. I.e. if I have enanbled SMS as 2FA and suddenly got a verification code I haven't requested I can suspect that my password is stolen and someone is trying to log into my account. 
