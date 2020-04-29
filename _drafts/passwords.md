@@ -32,7 +32,7 @@ So let's talk about requirements for our hypothetical password manager.
 **Side note**: as far as you are able to restore your password with the help of website's technical support it doesn't count as SPoF.
 
 ### Threat models for different approaches
-# Single password for all accounts
+# Common password for all accounts
   ![The easiest way](/assets/same_password.svg)
 
   We have three threats there:
@@ -110,6 +110,21 @@ Recoverability:
 - If your token allows to create it's duplicate you need to do it to have a backup. It's a good idea to store one at home while bring the other with you.
 - If you lost your computer you can download your database from the cloud.
 
+# Summary table
+Let's try to summarize different aspects of the discribed approaches in a comparison table.
+
+
+| Method | Authentication factors | Points of trust | Single points of failure |
+| ------ | ---------------------- | --------------- | ------------------------ |
+| Common password | Password | Every single service you use | Password |
+| Social login | Password, 2FA\*\* | Identity Provider | Password, 2FA\*\*, Identity Provider |
+| Local password manager without backups | Password, database | 0 | Password, your device |
+| Local password manager with backups | Password, database\*\*\* | Backups | Password |
+| Password manager with cloud sync | 2 | 0 | 1 |
+
+\* number of online services you use<br>
+\*\* depends on Indentity Provider<br>
+\*\*\* only in case
 
 ### <a name="IDS"></a> Early warning system
 The purpose of it is very simple: provide you enough time to change all your passwords if something goes wrong. I.e. if I have enanbled SMS as 2FA and suddenly got a verification code I haven't requested I can suspect that my password is stolen and someone is trying to log into my account. 
