@@ -5,8 +5,8 @@ date:   2020-04-07 22:01:23 +0200
 ---
 In this post I describe how I managed [password fatigue](https://en.wikipedia.org/wiki/Password_fatigue) while balancing the following contradicting requirements:
 - **Security** An adversary cannot log into my account.
-- **Usability** I can effortlessly log into my account whenever I want.
 - **Recoverability** I can recover access to my account if something goes wrong.
+- **Usability** I can effortlessly log into my account whenever I want.
 
 This is not a comparison of different password managers but an attempt to show threat models for different approaches and provide a background for choosing a right solution based on your own needs.
 <cut />
@@ -22,14 +22,36 @@ This led me to a sad conclusion that I "put all my eggs in one basket". Not the 
 Then I started to look for some better way how to store my passwords. After reading through different web sites for a few days I realized that I was looking for some good solution but had no clear requirements for that solution.
 So let's talk about requirements for our hypothetical password manager.
 ### Requirements
-- **Security**:
-    - If everything is OK an attacker needs excessive amount of time and/or computational power to break into my account.
-    - [Intrusion detection](https://en.wikipedia.org/wiki/Intrusion_detection_system). I want the system to warn me about secret data leakage before an attacker is able to log in to my account.
-- **Usability**:
-    - The less actions to log in is better.
-    - The less passwords to remember is better.
-- **Recoverability**:  The less [Single Points of Failure (SPoF)](https://en.wikipedia.org/wiki/Single_point_of_failure) is better. By SPoF I don't mean internet provider, cause I can switch to another one or use my phone as mobile hot spot, but rather a password DB stored on a USB Flash with no backups. In other words SPoF is some data (i.e. password) that is vital for logging in but has no backup or recovering method. 
-**Side note**: as far as you are able to restore your password with the help of website's technical support it doesn't count as SPoF.
+# Security
+  - The fewer 3rd party services I need to trust the better.
+  - The more efforts an attacker needs to stole my credentials the better.
+  - The more time I have to mitigate an attack the better.
+
+While "don't trust 3rd party" is quite obvious security recommendation I would like to focus on the second bullet.
+
+The most easy way to significantly increase security is adding another factor of authentication. One of the benefits of [multi-factor authentication][MFA] is that every factor requires an attacker to use different attack. I.e. a security camera in a cafe can accidentally record how you type your password but it can't steal your phone. The same as using a steering wheel lock and an electronic immobilizer, so a thief should be able to both crack the electronic code and lockpick the wheel lock. 
+
+![Entagled MFA](/assets/mfa.svg)
+
+The diagram above illustrates how connections between different authentication factors degrade the overall security.
+
+Let's imagine a service X uses SMS as a second authentication factor. If X allows resetting your password by calling to their support from the linked phone number, it means that anyone possessing your phone can both reset your password and receive the 2FA SMS. As a result the KNOWLEDGE factor (password) doesn't add any extra security to the POSSESSION factor (phone). Due to possible [attacks][SS7] on SS7 protocol and SIM swap [crimes][SIM], it is not even a strong POSSESSION factor. A determined attacker can use your phone number without actually stealing the phone itself. Let's use better second factors in 2020!
+
+# Recoverability
+The second worst thing after getting your account hacked is being irrecoverably locked out of it because of forgotten password.
+The less [Single Points of Failure (SPoF)][SPoF] the better. SPoFs are:
+  - Data without backups (including passwords in my brain).
+  - 3rd party services storing my data, unless I have a backup in other place (locally or another service).
+
+Giants like Google, Facebook, Twitter, and others may appear reliable enough to use them instead of independent accounts for your favorites e-shop, online cinema, etc. The problem arises when your account was permanently deleted, you disagree with new Terms of Service, the service itself was blocked by your government, you move to a country where this service is blocked, etc.
+
+# Usability
+  - The less manual actions per login the better.
+  - The less manual actions for setting up new devices the better.
+  - The less passwords to remember the better.
+  - The less frequently I change my passwords the better.
+
+Even the most secure solution is useless, if it has so terrible UX that you don't want to use it. Just imagine someone offer you a super secure authentication method requiring you to enter your PIN on a GPS-enabled pinpad while looking at the GPS-enabled eye iris scanner. This may be a very secure method but you are unlikely to use it for every online account. Even worse if you need to attach such a monster to every device you are working with, obtain unique device ID and register it from one of already authenticated device.
 
 ### Threat models for different approaches
 # Common password for all accounts
@@ -39,7 +61,14 @@ So let's talk about requirements for our hypothetical password manager.
   - someone may steal your password when you enter it (either peeking over the shoulder, hijacking your Bluetooth keyboard, etc.).
   - someone may hack one of services you use and extract your password.
   - any service you use may have malicious intents and steal your password.
-  You can never be sure 3rd party service is secure but re-using the same password for different accounts amplifies those problems. After hacking one of your accounts the attacker gets access to all of them. Not good at all.
+  Hacking any of your accounts puts all of them at risk. Not good at all.
+
+Recoverability is quite good cause you don't need anything but your password to log into any of the account.
+
+Usability is a bit more tricky for this case:
+  - you only need to remember (and type) the single password, which is very good.
+  - but different services may have different password policies. If you have a password like "123qwerty!{}" and register to a new service that requires password to have at least one capital letter you need to change your password on ALL other services too.
+  - whenever your password expires on one service you need to change it in all others too.
 
   Two other aspects are quite good. 
   - You only need to remeber a single password, given the assumption you have choosen one satisfying every website's needs like being at least X characters long, having small letter, capital letter and a digit, etc. Downside is changing password for every account once expired. If you use a service with a very paranoidal expiration time, like 90 days, it may become a real headache.
@@ -53,7 +82,7 @@ So let's talk about requirements for our hypothetical password manager.
   ![Social login](/assets/social_login.svg)
 
   Althoug this schema has much smaller attack surface since your password (or its hash) isn't stored by every service you use, some threats still exist:
-  - someone may steal your password when you enter it. This treat may be significantly reduced using good practices like [two-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication).
+  - someone may steal your password when you enter it. This treat may be significantly reduced using good practices like [two-factor authentication][MFA].
   - someone may hack your account on IP and log into RP.
   - IP itself may impersonate you.
 
@@ -138,5 +167,7 @@ As far as I can detect leaking any of them (including the file's backups) I am s
 - In case I leaked my master password I need to change it in every copy of the encrypted file to protect my passwords in case of leaking the encrypted file.
 - In case I leaked the encrypted file I need to change all password stored there and the master password in no more than 3 months.
 
-
-
+[MFA]: https://en.wikipedia.org/wiki/Multi-factor_authentication
+[SPoF]: https://en.wikipedia.org/wiki/Single_point_of_failure
+[SS7]: https://www.theregister.co.uk/2017/05/03/hackers_fire_up_ss7_flaw/
+[SIM]: https://www.wired.com/story/sim-swap-attack-defend-phone/
