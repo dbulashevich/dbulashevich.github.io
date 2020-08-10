@@ -10,7 +10,7 @@ In this post I describe how I managed [password fatigue](https://en.wikipedia.or
 
 This is not a comparison of different password managers but an attempt to show how threat modelling helps you choose a right solution based on your own needs.
 <cut />
-### Introduction
+## Introduction
 I personally have 20+ accounts (e-mails, social networks, e-shops, etc.). Some of those are of no value and have not any sensitive information but losing others would be a very unpleasant event.
 For a few years I used a common weak password for invaluable accounts, a bit stronger for my primary e-mail, and "Sign with Google" for the rest. But everything has its price and authenticating everywhere with a single account is not an exclusion. One day I waked up with quite an ordinary questions:
 1. What if someone hacks into my Google account?
@@ -21,9 +21,9 @@ For a few years I used a common weak password for invaluable accounts, a bit str
 This led me to a sad conclusion that I "put all my eggs in one basket". Not the best idea, no matter how good and strong the basket is.
 Then I started to look for some better way how to store my passwords. After reading through different web sites for a few days I realized that I was looking for a solution without clear understanding of my requirements.
 
-### Requirements
+## Requirements
 Defining your requirements is a crucial step for choosing a proper tool. Cause different requirements contradict each other, one need clearly understand trade-offs made in one or another solution. Someone may prefer more secure but less user-friendly approach, while another prefers easy login process.
-# Security
+### Security
   - The fewer 3rd party services I need to trust the better.
   - The more efforts an attacker needs to stole my credentials the better.
   - The more time I have to mitigate an attack the better.
@@ -39,7 +39,7 @@ Here we assume classical scheme of 2FA with a password and a single use verifica
 
 By the way, I wouldn't recommend SMS as an authentication factor in any schema because of known [attacks][SS7] on SS7 protocol and SIM swap [crimes][SIM]. Authentication apps provide much better security and at least comparable usability.
 
-# Recoverability
+### Recoverability
 The second worst thing after getting your account hacked is having it gone for good cause you've lost the authentication data.
 The less [Single Points of Failure (SPoF)][SPoF] the better. SPoFs are:
   - Data without backups (including passwords in my brain).
@@ -47,7 +47,7 @@ The less [Single Points of Failure (SPoF)][SPoF] the better. SPoFs are:
 
 Giants like Google, Facebook, Twitter, and others may appear reliable enough to use them instead of independent accounts for your favorites e-shop, online cinema, etc. The problem arises when your account has been permanently deleted, you disagree with new Terms of Service, the service itself has been blocked by your government, you've moved to a country where this service is not available, etc.
 
-# Usability
+### Usability
   - The less manual actions per login the better.
   - The less manual actions for setting up new devices the better.
   - The less passwords to remember the better.
@@ -55,9 +55,9 @@ Giants like Google, Facebook, Twitter, and others may appear reliable enough to 
 
 Even the most secure solution is useless, if it has so terrible UX that you don't want to use it. Just imagine someone offers you a super secure authentication method requiring you to enter a PIN on a GPS-enabled pinpad while looking at a GPS-enabled eye iris scanner. This may be a very secure method but you are unlikely to use it for every online account.
 
-### Threat models for different approaches
+## Threat models for different approaches
 Now, after setting criterias, we may actually compare different approaches. The list below is far from being exaustive but my goal is to demonstrate some most common schemas. Also there are many more vurnerabilities not discussed here but ones presented are enough to demonstrate the importance of understanding whom and what you trust.
-# Common password for all accounts
+### Common password for all accounts
   ![The easiest way](/assets/same_password.svg)
 
   We have three threats there:
@@ -77,7 +77,7 @@ Usability is a bit more tricky for this case:
   - You only need to remeber a single password, given the assumption you have choosen one satisfying every website's needs like being at least X characters long, having small letter, capital letter and a digit, etc. Downside is changing password for every account once expired. If you use a service with a very paranoidal expiration time, like 90 days, it may become a real headache.
   - The password is "stored" in your head and online services are independent of each other. So the only SPoF which is your own brain. While loosing access to all your accounts after a car accident is bad, it isn't the worst problem at all.
 
-# Social login
+### Social login
   Very popular practice is using a single identity to log into different services. A lot of websites allow to use your existing Facebook or Google account without registering new account on the website itself.
 
   In terminilogy of [OpenID](https://en.wikipedia.org/wiki/OpenID) the service storing your account is called Identity Provider (IP) and services using the identity provided by IP are called Relying Parties (RP).
@@ -95,7 +95,7 @@ Usability is a bit more tricky for this case:
 
   In other words you trust your IP with all your online accounts. IP may leak your credentials (intentionally or not), impersonate you, delete your account, etc.
 
-# Local password manager
+### Local password manager
   If you don't want to trust a 3rd party all your accounts but still has a one password to remember you may use some kind of local [password manager](https://en.wikipedia.org/wiki/Password_manager). Using a single master password (MP) you unlock the password's database (PD) storing all your protected passwords (PP) in some local storage.
 
   ![local manager](/assets/local_manager.svg)
@@ -116,7 +116,7 @@ Usability is a bit more tricky for this case:
 
   Unless you store your PD on at least two independent media and keep those in sync your PD is a SPoF. If you lost it you may wave goodbye to your passwords.
   
-# Password manager with cloud synchronization
+### Password manager with cloud synchronization
 As I have told above, the worst problem of using a local password manager is managing backups of your password database and synchronizing it between different devices. The most convinient way is a file hosting service in some cloud.
 
 ![cloud manager](/assets/cloud_manager.svg)
@@ -142,7 +142,7 @@ Recoverability:
 - If your token allows to create it's duplicate you need to do it to have a backup. It's a good idea to store one at home while bring the other with you.
 - If you lost your computer you can download your database from the cloud.
 
-# Summary table
+## Summary table
 Let's try to summarize different aspects of the discribed approaches in a comparison table.
 
 
@@ -156,7 +156,7 @@ Let's try to summarize different aspects of the discribed approaches in a compar
 \* depends on Indentity Provider<br>
 \*\* depends on backups security<br>
 
-### <a name="IDS"></a> Early warning system
+## <a name="IDS"></a> Early warning system
 The purpose of it is very simple: provide you enough time to change all your passwords if something goes wrong. I.e. if I have enanbled SMS as 2FA and suddenly got a verification code I haven't requested I can suspect that my password is stolen and someone is trying to log into my account. 
 
 Even if I'm safe for now, it's better to change password before the attacker got my phone number and intercepted my SMS. This kind of attack [was described in 2014](https://www.theregister.co.uk/2014/12/26/ss7_attacks/) and succesfully [exploited in 2017](https://www.theregister.co.uk/2017/05/03/hackers_fire_up_ss7_flaw/). Please, don't use it in 2020.
