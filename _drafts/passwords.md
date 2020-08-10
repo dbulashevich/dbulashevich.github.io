@@ -8,10 +8,10 @@ In this post I describe how I managed [password fatigue](https://en.wikipedia.or
 - **Recoverability** I can recover access to my account if something goes wrong.
 - **Usability** I can effortlessly log into my account whenever I want.
 
-This is not a comparison of different password managers but an attempt to show threat models for different approaches and provide a background for choosing a right solution based on your own needs.
+This is not a comparison of different password managers but an attempt to show how threat modelling helps you choose a right solution based on your own needs.
 <cut />
 ### Introduction
-I personally have 20+ accounts (e-mail, social networks, e-shops, e-banking, etc.). Some of those accounts are of no value for me and have not a lot of sensitive information but losing other would be a very unpleasant event.
+I personally have 20+ accounts (e-mails, social networks, e-shops, etc.). Some of those are of no value and have not any sensitive information but losing others would be a very unpleasant event.
 For a few years I used a common weak password for invaluable accounts, a bit stronger for my primary e-mail, and "Sign with Google" for the rest. But everything has its price and authenticating everywhere with a single account is not an exclusion. One day I waked up with quite an ordinary questions:
 1. What if someone hacks into my Google account?
 2. Is Google itself able to access every of my bound accounts?
@@ -19,31 +19,33 @@ For a few years I used a common weak password for invaluable accounts, a bit str
 4. What if government blocks the Google?
 
 This led me to a sad conclusion that I "put all my eggs in one basket". Not the best idea, no matter how good and strong the basket is.
-Then I started to look for some better way how to store my passwords. After reading through different web sites for a few days I realized that I was looking for some good solution but had no clear requirements for that solution.
-So let's talk about requirements for our hypothetical password manager.
+Then I started to look for some better way how to store my passwords. After reading through different web sites for a few days I realized that I was looking for a solution without clear understanding of my requirements.
+
 ### Requirements
+Defining your requirements is a crucial step for choosing a proper tool. Cause different requirements contradict each other, one need clearly understand trade-offs made in one or another solution. Someone may prefer more secure but less user-friendly approach, while another prefers easy login process.
 # Security
   - The fewer 3rd party services I need to trust the better.
   - The more efforts an attacker needs to stole my credentials the better.
   - The more time I have to mitigate an attack the better.
 
-While "don't trust 3rd party" is quite obvious security recommendation I would like to focus on the second bullet.
+While "don't trust 3rd party" is a quite obvious recommendation, I would like to focus on the second bullet.
 
-The most easy way to significantly increase security is adding another factor of authentication. One of the benefits of [multi-factor authentication][MFA] is that every factor requires an attacker to use different attack. I.e. a security camera in a cafe can accidentally record how you type your password but it can't steal your phone. The same as using a steering wheel lock and an electronic immobilizer, so a thief should be able to both crack the electronic code and lockpick the wheel lock. 
+A common way to improve security is adding another factor of authentication. One of the benefits of a properly designed [multi-factor authentication][MFA] is that every factor requires an attacker to use different attack. The same as securing your car with a steering wheel lock and an electronic immobilizer, so a thief should be able to both crack the electronic code and lockpick the wheel lock. 
 
+Ideally all factors should be orthogonal to each other, so breaching one factor doesn't compromise others. Let's demonstrate it with simple diagrams below.
 ![Entagled MFA](/assets/mfa.svg)
 
-The diagram above illustrates how connections between different authentication factors degrade the overall security.
+Here we assume classical scheme of 2FA with a password and a single use verification code sent in SMS. Blue and yellow figures represent attacks on a password and SMS respectively. If the password can be reset via phone, those two factors are not orthogonal anymore as succefful breach of the SMS factor compromise the password too.
 
-Let's imagine a service X uses SMS as a second authentication factor. If X allows resetting your password by calling to their support from the linked phone number, it means that anyone possessing your phone can both reset your password and receive the 2FA SMS. As a result the KNOWLEDGE factor (password) doesn't add any extra security to the POSSESSION factor (phone). Due to possible [attacks][SS7] on SS7 protocol and SIM swap [crimes][SIM], it is not even a strong POSSESSION factor. A determined attacker can use your phone number without actually stealing the phone itself. Let's use better second factors in 2020!
+By the way, I wouldn't recommend SMS as an authentication factor in any schema because of known [attacks][SS7] on SS7 protocol and SIM swap [crimes][SIM]. Authentication apps provide much better security and at least comparable usability.
 
 # Recoverability
-The second worst thing after getting your account hacked is being irrecoverably locked out of it because of forgotten password.
+The second worst thing after getting your account hacked is having it gone for good cause you've lost the authentication data.
 The less [Single Points of Failure (SPoF)][SPoF] the better. SPoFs are:
   - Data without backups (including passwords in my brain).
   - 3rd party services storing my data, unless I have a backup in other place (locally or another service).
 
-Giants like Google, Facebook, Twitter, and others may appear reliable enough to use them instead of independent accounts for your favorites e-shop, online cinema, etc. The problem arises when your account was permanently deleted, you disagree with new Terms of Service, the service itself was blocked by your government, you move to a country where this service is blocked, etc.
+Giants like Google, Facebook, Twitter, and others may appear reliable enough to use them instead of independent accounts for your favorites e-shop, online cinema, etc. The problem arises when your account has been permanently deleted, you disagree with new Terms of Service, the service itself has been blocked by your government, you've moved to a country where this service is not available, etc.
 
 # Usability
   - The less manual actions per login the better.
@@ -51,9 +53,10 @@ Giants like Google, Facebook, Twitter, and others may appear reliable enough to 
   - The less passwords to remember the better.
   - The less frequently I change my passwords the better.
 
-Even the most secure solution is useless, if it has so terrible UX that you don't want to use it. Just imagine someone offer you a super secure authentication method requiring you to enter your PIN on a GPS-enabled pinpad while looking at the GPS-enabled eye iris scanner. This may be a very secure method but you are unlikely to use it for every online account. Even worse if you need to attach such a monster to every device you are working with, obtain unique device ID and register it from one of already authenticated device.
+Even the most secure solution is useless, if it has so terrible UX that you don't want to use it. Just imagine someone offers you a super secure authentication method requiring you to enter a PIN on a GPS-enabled pinpad while looking at a GPS-enabled eye iris scanner. This may be a very secure method but you are unlikely to use it for every online account.
 
 ### Threat models for different approaches
+Now, after setting criterias, we may actually compare different approaches. The list below is far from being exaustive but my goal is to demonstrate some most common schemas. Also there are many more vurnerabilities not discussed here but ones presented are enough to demonstrate the importance of understanding whom and what you trust.
 # Common password for all accounts
   ![The easiest way](/assets/same_password.svg)
 
