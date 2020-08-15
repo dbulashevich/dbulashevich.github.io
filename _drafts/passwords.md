@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Whom I trust my online accounts?"
-date:   2020-04-07 22:01:23 +0200
+#date:   2020-04-07 22:01:23 +0200
 ---
 In this post I describe how I managed [password fatigue](https://en.wikipedia.org/wiki/Password_fatigue) while balancing the following contradicting requirements:
 - **Security** An adversary cannot log into my account.
@@ -9,17 +9,17 @@ In this post I describe how I managed [password fatigue](https://en.wikipedia.or
 - **Usability** I can effortlessly log into my account whenever I want.
 
 This is not a comparison of different password managers but an attempt to show how threat modelling helps you choose a right solution based on your own needs.
-<cut />
+
 ## Introduction
 I personally have 20+ accounts (e-mails, social networks, e-shops, etc.). Some of those are of no value and have not any sensitive information but losing others would be a very unpleasant event.
-For a few years I used a common weak password for invaluable accounts, a bit stronger for my primary e-mail, and "Sign with Google" for the rest. But everything has its price and authenticating everywhere with a single account is not an exclusion. One day I waked up with quite an ordinary questions:
-1. What if someone hacks into my Google account?
-2. Is Google itself able to access every of my bound accounts?
+For a few years I used a common weak password for invaluable accounts, a bit stronger for my primary e-mail, and "Sign with Google" for the rest. But everything has its price and authenticating everywhere with a single account is not an exclusion. One day I waked up with quite ordinary questions:
+1. What if someone hacks my Google account?
+2. Is Google itself able to impersonate me?
 3. What if one day Google terminates my account?
 4. What if government blocks the Google?
 
 This led me to a sad conclusion that I "put all my eggs in one basket". Not the best idea, no matter how good and strong the basket is.
-Then I started to look for some better way how to store my passwords. After reading through different web sites for a few days I realized that I was looking for a solution without clear understanding of my requirements.
+Then I started to look for some better way of storing my passwords. After reading through different web sites for a few days I realized that I was looking for a solution without clear understanding of my requirements. Next day was a Monday, so I stopped googling and started working. I hadn't returned to this topic until I met my old school mate with whom I used to discuss my most crazy ideas. Then we spent not one hour and drunk not one cup of Glögg over discussion how to combine all our requirements in one system. 
 
 ## Requirements
 Defining your requirements is a crucial step for choosing a proper tool. Cause different requirements contradict each other, one need clearly understand trade-offs made in one or another solution. Someone may prefer more secure but less user-friendly approach, while another prefers easy login process.
@@ -216,6 +216,20 @@ Let's try to summarize different aspects of described approaches in a comparison
 
 \* depends on Indentity Provider<br>
 \*\* if both main database and all backups are kept secret<br>
+
+## Credits
+<div>Credits for icons go to
+<a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a>, 
+<a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>, 
+<a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a>, 
+<a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a>, 
+<a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a>, 
+<a href="https://www.flaticon.com/authors/srip" title="srip">srip</a>,
+<a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a>,
+<a href="https://www.flaticon.com/authors/alfredo-hernandez" title="Alfredo Hernandez">Alfredo Hernandez</a>, 
+<a href="https://www.flaticon.com/authors/payungkead" title="Payungkead">Payungkead</a> 
+from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
 
 [MFA]: https://en.wikipedia.org/wiki/Multi-factor_authentication
 [SPoF]: https://en.wikipedia.org/wiki/Single_point_of_failure
