@@ -4,7 +4,13 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Although technologies are aimed to make our life easier, it comes with a responsibility for improper usage of those technologies.
+
+In this blog I share my experience of such technological challenges. If this blog will induce some thoughts or help you understand some tehcnology, my goal will be accomplished.
+
+----
+  
+This blog is running on Jekyll.
 
 You can find the source code for Minima at GitHub:
 [jekyll][jekyll-organization] /
