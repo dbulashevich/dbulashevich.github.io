@@ -22,18 +22,18 @@ This led me to a sad conclusion that I "put all my eggs in one basket". Not the 
 Then I started to look for some better way of storing my passwords. After reading through different web sites for a few days I realized that I was looking for a solution without clear understanding of my requirements. Next day was a Monday, so I stopped googling and started working. I hadn't returned to this topic until I met my old school mate with whom I used to discuss my most crazy ideas. Then we spent not one hour and drunk not one cup of Glögg over discussion how to combine all our requirements in one system. 
 
 ## Requirements
-Defining your requirements is a crucial step for choosing a proper tool. Cause different requirements contradict each other, one need clearly understand trade-offs made in one or another solution. Someone may prefer more secure but less user-friendly approach, while another prefers easy login process.
+Defining your requirements is a crucial step for choosing a proper tool. Cause different requirements contradict each other, one needs to clearly understand trade-offs made in one or another solution. Someone may prefer more secure but less user-friendly approach, other person prefers easy login process.
 
 ### Security
 <details><summary>The fewer 3rd party services I need to trust the better.</summary>
 
-Every new service adds its own problems - security vulnerabilities, human mistakes, insider attacks, etc. Unless end-to-end encryption is used, every service has technical possibility to read your data passed through them.
+Every new service adds its own problems - security vulnerabilities, human mistakes, insider attacks, etc. Unless client-side encryption is used, every service you use has technical possibility to access your data.
 </details>
 
 <details> 
-<summary>The more efforts an attacker needs to stole my credentials the better.</summary>
+<summary>The more efforts an attacker needs to steal my credentials the better.</summary>
 
-A common way to improve security is adding another factor of authentication. One of the benefits of a properly designed [multi-factor authentication][MFA] is that every factor requires an attacker to use different attack. The same as securing your car with a steering wheel lock and an electronic immobilizer, so a thief should be able to both crack the electronic code and lockpick the wheel lock. 
+A common way to improve security is adding another factor of authentication. One of the benefits of a properly designed [multi-factor authentication][MFA] is that every factor requires a different kind of attack. The same as securing your car with a steering wheel lock and an electronic immobilizer, so a thief should be able to both crack the electronic code and lockpick the wheel lock. 
 
 Ideally all factors should be orthogonal to each other, so breaching one factor doesn't compromise others. Let's demonstrate it with simple diagrams below.
 ![Entagled MFA](/assets/mfa.svg)
@@ -45,13 +45,13 @@ By the way, I wouldn't recommend SMS as an authentication factor in any schema b
 
 <details><summary>The more time I have to mitigate an attack the better.</summary>
 
-Let's use a simple analogy of a door with two independent locks. If one evening you came home and found one lock is lock-picked while the second one is intact you know that someone has tried to break in your home. Even the door still holds you would probable replace the broken lock to restore "two locks" security.
+Let's use a simple analogy of a door with two independent locks. If one evening you came home and found one lock is lock-picked while the second one is intact you know that someone has tried to break in your home. Despite the door is still locked, you need to replace the broken lock to restore "two locks" security.
 
-The same goes for information security. Whenever you receive an SMS with a one-time code for a login attempt you have never made, you may assume your password is compromised and change it immediately.
+The same goes for information security. Whenever you receive an SMS with a one-time code for a login attempt you have never made, you need assume your password is compromised. It is better to change it immediately.
 </details>
 
 ### Recoverability
-The second worst thing after getting your account hacked is having it gone for good cause you've lost the authentication data.
+Apart from getting your account hacked, the second worst thing is losing it cause you've lost the authentication data.
 The less [Single Points of Failure (SPoF)][SPoF] the better. SPoFs are:
 <details><summary>Data without backups.</summary>
 
@@ -64,7 +64,7 @@ Giants like Google, Facebook, Twitter, and others may appear reliable enough to 
 </details>
 
 ### Usability
-No matter how secure a system is, it will be useless if nobody want to use it. So I would focus on the following requirements for usability.
+No matter how secure a system is, it will be useless if nobody wants to use it. So I would focus on the following requirements for usability.
 <details><summary>The less manual actions per login the better.</summary>
 
 If a system will require too many actions to login, i.e. type a password, than retype a code from SMS, and scan user's fingerprint it may be very secure but I would bet you wouldn't use such a system for every online account. For banking maybe, but not for local newspaper.
@@ -77,9 +77,9 @@ Passwords are a good security tool but have a little nasty drawback. Strong pass
 
 <details><summary>The less frequently I change my passwords the better.</summary>
 
-Even decent passwords may be cracked if an attacker has managed to steal database of password hashes from an attacked system. The time needed to guess a password depends on the password strength. For more details on this topic you may refer either to [Password strength][passwords] article on Wikipedia or NIST publication [Electronic Authentication Guideline][NIST_EAG].
+Even decent passwords may be cracked if an attacker has managed to steal password hashes from an attacked system. The time needed to guess a password depends on the password strength. For more details on this topic you may refer either to [Password strength][passwords] article on Wikipedia or NIST publication [Electronic Authentication Guideline][NIST_EAG].
 
-For our goals the simple rule is "a long password gives you more time to change it after compromising the password's hash". The culprit is detecting of hash compromising. For regular online services you may assume that someone stoles databases immediately after every password change, cause most probably system administrator can download the database. This is the reason why some services require password to be changed regularly.
+For our goals the simple rule is "a long password gives you more time to change it after compromising the password's hash". The problem is the detection of hash compromising. For regular online services you may assume that someone steals databases immediately after every password change, cause most probably a system administrator can download the database. This is the reason why some services force you to change passwords regularly.
 
 What could really help here is an alarm that someone has just stolen your data. This allows you to change passwords not regularly, but only after an incident.
 </details>
