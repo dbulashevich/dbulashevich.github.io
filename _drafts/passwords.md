@@ -3,7 +3,7 @@ layout: post
 title: "Whom I trust my online accounts?"
 #date:   2020-04-07 22:01:23 +0200
 ---
-This post describes how I managed [password fatigue](https://en.wikipedia.org/wiki/Password_fatigue) while balancing the following contradicting requirements:
+This post describes managing [password fatigue](https://en.wikipedia.org/wiki/Password_fatigue) while balancing the following mutually contradicting requirements:
 - **Security** An adversary cannot log into my account.
 - **Recoverability** I can recover access to my account if something goes wrong.
 - **Usability** I can effortlessly log into my account whenever I want.
